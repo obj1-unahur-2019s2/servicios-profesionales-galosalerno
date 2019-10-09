@@ -1,0 +1,40 @@
+import profesionales.*
+import empresas.*
+
+describe "tests de profesionales"{
+	
+		
+		const sanMartin = new Universidad(provincia = "buenosAires", honorarios=3500) 
+		const rosario = new Universidad(provincia = "Santa Fe", honorarios=2800)
+		const corrientes = new Universidad(provincia ="Corrientes",honorarios=4200)
+		const hurlingham = new Universidad(provincia="Buenos Aires", honorarios=8800)
+		const juana = new ProfesionalVinculado(universidad=rosario)
+		const melina = new ProfesionalAsociado(universidad=corrientes)
+		const rocio = new ProfesionalLibre(universidad=hurlingham,honorariosPorHora=5000,provinciasDondePuedeTrabajar= #{"santa fe","cordoba","buenosAires"})
+		const luciana = new ProfesionalLibre(universidad=rosario,honorariosPorHora=3200,provinciasDondePuedeTrabajar= #{"santa fe","entre rios"})
+		const empresa1 = new Empresa(honorarioDeReferencia=3500)
+		
+		
+		fixture {
+		empresa1.agregarEmpleado(juana)
+		empresa1.agregarEmpleado(melina)
+		empresa1.agregarEmpleado(rocio)
+		empresa1.agregarEmpleado(luciana)
+		}
+		
+		test "probar"{
+			
+			assert.equals(2, empresa1.cuantosEstudiaronEn(rosario))
+			assert.equals(1, empresa1.cuantosEstudiaronEn(hurlingham))
+			assert.equals(0, empresa1.cuantosEstudiaronEn(sanMartin))
+		}
+		test "2"{
+			assert.equals([rocio],empresa1.profesionalesCaros())		
+			assert.equals(#{rosario,corrientes,hurlingham},empresa1.universidadesFormadoras())
+			assert.equals(juana,empresa1.profesionalMasBarato())
+		}
+}	
+	
+
+
+
